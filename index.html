@@ -223,7 +223,7 @@ body.locked #skip-btn{display:none}
   <div class="popup-fit" id="gate-fit"><div class="popup-card">
     <div class="popup-header">
       <div class="logo-wrap">
-        <img src="file:///android_asset/app_icon.png" alt="Logo" class="header-logo" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
+        <img src="file:///android_asset/app_icon.png" alt="Logo" class="header-logo" onerror="this.src='https://plain-apac-prod-public.komododecks.com/202611/23/40wMBf8E9aOkRRLsqWk7/image.png'">
         <div class="hat" id="hat2"></div>
       </div>
       <div class="header-text">
@@ -260,7 +260,7 @@ body.locked #skip-btn{display:none}
         <div class="sonar"></div><div class="sonar" style="animation-delay:1.5s"></div>
         <div class="porthole">
             <div class="glass">
-                <img src="file:///android_asset/app_icon.png" alt="Icon" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
+                <img src="file:///android_asset/app_icon.png" alt="Icon" onerror="this.src='https://plain-apac-prod-public.komododecks.com/202611/23/40wMBf8E9aOkRRLsqWk7/image.png'">
                 <div class="slosh"><div class="water" id="water"><div class="wave-top"></div></div></div>
             </div>
         </div>
@@ -294,7 +294,7 @@ body.locked #skip-btn{display:none}
     <div class="popup-fit" id="popup-fit"><div class="popup-card">
         <div class="popup-header">
             <div class="logo-wrap">
-                <img src="file:///android_asset/app_icon.png" alt="Logo" class="header-logo" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
+                <img src="file:///android_asset/app_icon.png" alt="Logo" class="header-logo" onerror="this.src='https://plain-apac-prod-public.komododecks.com/202611/23/40wMBf8E9aOkRRLsqWk7/image.png'">
                 <div class="hat" id="hat"></div>
             </div>
             <div class="header-text">
@@ -782,15 +782,15 @@ function lanjut(btn){
   }, 300);
 }
 
-/* ===== GATE KEY TERHUBUNG KE SERVER GGMP ===== */
-const LICENSE_API_BASE = 'https://ggmpadmin-xmfychtd.manus.space'; // akan diganti dengan alamat HTTPS publik
+/* ===== GATE KEY ===== */
+const KEY_API = '';                  // isi URL server key kamu, mis. 'https://domainmu.com/api/verify'
+const TEST_KEYS = ['VANZIX-TEST'];   // cuma untuk uji tampilan, HAPUS kalau KEY_API sudah diisi
 const LS = {
   get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},
   set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},
   del:k=>{try{localStorage.removeItem(k)}catch(e){}}
 };
 let unlocked = false, busy = false, rem = false;
-const OFFLINE_GRACE_MS = 3 * 24 * 60 * 60 * 1000;
 
 function devId(){
   try{ if(window.Android && Android.getDeviceId) return String(Android.getDeviceId()); }catch(e){}
@@ -798,39 +798,24 @@ function devId(){
   if(!d){ d = 'D' + Math.random().toString(36).slice(2,10) + Date.now().toString(36); LS.set('vz_dev', d); }
   return d;
 }
-function licenseError(status){
-  return ({invalid:'Key tidak dikenal atau tidak valid',revoked:'Key sudah dicabut',expired:'Masa berlaku key sudah habis',blocked:'Perangkat ini diblokir',full:'Batas perangkat untuk key ini sudah penuh',rate_limited:'Terlalu banyak percobaan. Coba lagi sebentar.'})[status] || 'Key tidak dapat diverifikasi';
-}
-async function licenseRequest(path, payload){
-  if(!LICENSE_API_BASE || LICENSE_API_BASE.includes('__LICENSE_API_BASE__')) return {net:true};
-  const c = new AbortController(), to = setTimeout(()=>c.abort(), 10000);
+
+/* server mengembalikan JSON: {"ok":true} atau {"ok":false,"message":"..."} */
+async function checkKey(key){
+  if(!KEY_API) return {ok: TEST_KEYS.includes(key)};
+  const c = new AbortController(), to = setTimeout(()=>c.abort(), 8000);
   try{
-    const r = await fetch(LICENSE_API_BASE + path, {method:'POST', mode:'cors', cache:'no-store', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload), signal:c.signal});
-    let j={}; try{j=await r.json()}catch(e){}
-    if(r.ok && j.status==='active') return {ok:true, data:j};
-    return {ok:false, status:j.status || 'invalid'};
-  }catch(e){ return {net:true}; }
+    const r = await fetch(KEY_API, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({key, device:devId()}), signal:c.signal});
+    const j = await r.json();
+    return {ok:!!j.ok, msg:j.message};
+  }catch(e){ return {ok:false, net:true}; }
   finally{ clearTimeout(to); }
 }
-async function activateKey(key){
-  return licenseRequest('/api/activate', {key, device_id:devId(), device_name:(navigator.userAgent||'Android WebView').slice(0,180)});
-}
-async function verifySavedToken(token){
-  const r = await licenseRequest('/api/check', {token, device_id:devId()});
-  if(r.ok){ LS.set('vz_last_ok', String(Date.now())); return r; }
-  if(r.net){
-    const last=Number(LS.get('vz_last_ok')||0);
-    if(last>0 && Date.now()-last<=OFFLINE_GRACE_MS) return {ok:true, offline:true};
-    return {net:true};
-  }
-  LS.del('vz_token'); LS.del('vz_last_ok');
-  return r;
-}
+
 function gateMsg(t, c){ const m = $('gate-msg'); m.textContent = t; m.className = 'gate-msg ' + (c || ''); }
 function setRem(v){ rem = v; $('sw').classList.toggle('on', v); }
 function setBtn(on){
   $('gate-ico').className = on ? 'fa-solid fa-circle-notch fa-spin' : 'fa-solid fa-ship';
-  $('gate-btn-t').textContent = on ? 'MEMERIKSA...' : 'AKTIFKAN KEY';
+  $('gate-btn-t').textContent = on ? 'MEMERIKSA...' : 'BUKA LAYAR';
 }
 function bad(){
   const c = document.querySelector('#gate .popup-card');
@@ -843,30 +828,22 @@ function fitGate(){
   f.style.setProperty('--s', 1);
   f.style.setProperty('--s', Math.min(1, innerHeight*.94/f.offsetHeight).toFixed(3));
 }
-async function submitKey(){
+
+async function submitKey(auto){
   if(busy || unlocked) return;
   const key = $('key-in').value.trim();
   if(!key){ gateMsg('Masukkan key dulu, Kapten!', 'err'); bad(); return; }
-  busy = true; setBtn(true); gateMsg('Memeriksa key ke server...');
-  const r = await activateKey(key);
+  busy = true; setBtn(true); gateMsg(auto ? 'Memeriksa device...' : 'Memeriksa key...');
+  const r = await checkKey(key);
   busy = false; setBtn(false);
-  if(r.ok){
-    if(rem){ LS.set('vz_token',r.data.token); LS.set('vz_last_ok',String(Date.now())); }
-    else { LS.del('vz_token'); LS.del('vz_last_ok'); }
-    unlock();
-  }else{
-    gateMsg(r.net ? 'Tidak ada koneksi ke server lisensi' : licenseError(r.status), 'err');
+  if(r.ok){ rem ? LS.set('vz_key', key) : LS.del('vz_key'); unlock(); }
+  else{
+    if(auto) LS.del('vz_key');
+    gateMsg(r.net ? 'Tidak ada koneksi ke server' : (r.msg || 'Key salah atau tidak aktif'), 'err');
     bad();
   }
 }
-async function resumeWithSavedToken(){
-  const token=LS.get('vz_token'); if(!token) return;
-  busy=true; setBtn(true); gateMsg('Memeriksa lisensi perangkat...');
-  const r=await verifySavedToken(token);
-  busy=false; setBtn(false);
-  if(r.ok){ unlock(); return; }
-  gateMsg(r.net ? 'Hubungkan internet dan masukkan key untuk aktivasi' : licenseError(r.status), 'err');
-}
+
 function unlock(){
   unlocked = true; gateMsg('Key benar! Layar dibuka...', 'ok'); tap(1); Snd.sfx('done');
   const b = $('gate-badge'); b.classList.remove('lock'); b.lastChild.textContent = 'OPEN';
@@ -880,18 +857,21 @@ function unlock(){
     $('loading-container').style.display = 'flex'; measure(); startLoading();
   }, 1350);
 }
+
 function gateInit(){
   $('gate-ship-in').innerHTML = SHIP;
   $('hat2').innerHTML = HAT.replace(/gHt/g, 'gHt2');
   $('key-eye').onclick = ()=>{ const i = $('key-in'), s = i.type === 'password'; i.type = s ? 'text' : 'password'; $('key-eye').firstChild.className = 'fa-solid ' + (s ? 'fa-eye-slash' : 'fa-eye'); tap(); };
   $('rem-row').onclick = ()=>{ setRem(!rem); tap(); };
-  $('gate-btn').onclick = ()=>{ tap(); submitKey(); };
-  $('key-in').addEventListener('keydown', e=>{ if(e.key === 'Enter') submitKey(); });
+  $('gate-btn').onclick = ()=>{ tap(); submitKey(false); };
+  $('key-in').addEventListener('keydown', e=>{ if(e.key === 'Enter') submitKey(false); });
   addEventListener('resize', fitGate);
   requestAnimationFrame(()=>{ $('gate').classList.add('open'); fitGate(); });
   setTimeout(fitGate, 150);
-  if(LS.get('vz_token')){ setRem(true); setTimeout(()=>resumeWithSavedToken(), 900); }
+  const saved = LS.get('vz_key');
+  if(saved){ $('key-in').value = saved; setRem(true); setTimeout(()=>submitKey(true), 900); }
 }
+
 let hasStarted = false;
 function bootLoading(){ if(hasStarted) return; hasStarted = true; Snd.start(); gateInit(); }
 window.addEventListener('DOMContentLoaded', bootLoading);
