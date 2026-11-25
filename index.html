@@ -4,10 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>VANZIX Premium</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@700&display=swap"></noscript>
 <style>
-@font-face{font-family:'ScreenFont';src:url('screen.ttf') format('truetype');font-weight:normal;font-style:normal}
+@font-face{font-family:'ScreenFont';src:url('screen.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:swap}
 :root{--c:#5fe0ff;--b:#0a6cff;--foam:#e4f8ff;--sea:.12;--wave:.95;--pw:170px;--xs:100}
 *{margin:0;padding:0;box-sizing:border-box;user-select:none;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidden;background:transparent;cursor:pointer;-webkit-font-smoothing:antialiased}
@@ -35,7 +37,7 @@ html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidde
 .tech-text-top i{margin-right:6px;color:#9fe7ff}
 .icon-spinner-wrapper{position:relative;width:calc(var(--pw) + 50px);height:calc(var(--pw) + 50px);display:flex;justify-content:center;align-items:center;margin-bottom:10px;animation:riseIn 1.1s cubic-bezier(.34,1.4,.64,1) both;transition:opacity .4s}
 @keyframes riseIn{from{opacity:0;transform:translateY(30px) scale(.85)}to{opacity:1;transform:none}}
-.glow-aura{position:absolute;width:calc(var(--pw) + 20px);height:calc(var(--pw) + 20px);background:radial-gradient(circle,rgba(95,224,255,.45) 0%,transparent 70%);border-radius:50%;animation:pulseAura 2.4s infinite alternate}
+.glow-aura{position:absolute;width:calc(var(--pw) + 20px);height:calc(var(--pw) + 20px);background:radial-gradient(circle,rgba(95,224,255,.45) 0%,transparent 70%);border-radius:50%}
 @keyframes pulseAura{from{transform:scale(.8);opacity:.5}to{transform:scale(1.3);opacity:1}}
 .sonar{position:absolute;width:var(--pw);height:var(--pw);border-radius:50%;border:2px solid rgba(95,224,255,.7);animation:sonar 3s ease-out infinite}
 @keyframes sonar{from{transform:scale(1);opacity:.7}to{transform:scale(1.55);opacity:0}}
@@ -63,8 +65,8 @@ html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidde
 .progress-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);transform:translateX(-100%);animation:sweep 1.6s infinite linear}
 @keyframes sweep{to{transform:translateX(100%)}}
 .ship{position:absolute;left:0;bottom:4px;width:64px;height:49px;z-index:4;will-change:transform;pointer-events:none}
-.ship-in{width:100%;height:100%;transform-origin:50% 92%;animation:shipBob 2.4s ease-in-out infinite}
-.ship-in svg{display:block;width:100%;height:100%;filter:drop-shadow(0 2px 5px rgba(0,0,0,.6))}
+.ship-in{width:100%;height:100%;will-change:transform;transform-origin:50% 92%;animation:shipBob 2.4s ease-in-out infinite}
+.ship-in svg{display:block;width:100%;height:100%}
 @keyframes shipBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2.5deg)}}
 .wake{position:absolute;left:-30px;bottom:-4px;width:52px;height:9px;transform-origin:100% 50%;background:radial-gradient(ellipse at 100% 50%,rgba(255,255,255,.9),rgba(190,235,255,.4) 45%,transparent 72%);animation:wakeP .5s ease-in-out infinite alternate}
 @keyframes wakeP{from{opacity:.55;transform:scaleX(.8)}to{opacity:1;transform:scaleX(1.1)}}
@@ -96,9 +98,9 @@ html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidde
 
 /* ===== BULAN (DOM, halus di semua layar) ===== */
 #moon{position:fixed;left:78vw;top:20vh;width:10vh;height:10vh;transform:translate(-50%,-50%);z-index:1;pointer-events:none}
-#moon img{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+#moon img{position:absolute;left:0;top:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .8s}
 .mglow{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
-.mglow.a{width:46vh;height:46vh;background:radial-gradient(closest-side,rgba(190,225,255,0.550) 0%,rgba(190,225,255,0.427) 10%,rgba(190,225,255,0.322) 20%,rgba(190,225,255,0.234) 30%,rgba(190,225,255,0.161) 40%,rgba(190,225,255,0.104) 50%,rgba(190,225,255,0.061) 60%,rgba(190,225,255,0.031) 70%,rgba(190,225,255,0.012) 80%,rgba(190,225,255,0.002) 90%,rgba(190,225,255,0.000) 100%);animation:mpulse 6s ease-in-out infinite}
+.mglow.a{width:46vh;height:46vh;background:radial-gradient(closest-side,rgba(190,225,255,0.550) 0%,rgba(190,225,255,0.427) 10%,rgba(190,225,255,0.322) 20%,rgba(190,225,255,0.234) 30%,rgba(190,225,255,0.161) 40%,rgba(190,225,255,0.104) 50%,rgba(190,225,255,0.061) 60%,rgba(190,225,255,0.031) 70%,rgba(190,225,255,0.012) 80%,rgba(190,225,255,0.002) 90%,rgba(190,225,255,0.000) 100%)}
 .mglow.b{width:22vh;height:22vh;background:radial-gradient(closest-side,rgba(190,225,255,0.825) 0%,rgba(190,225,255,0.641) 10%,rgba(190,225,255,0.483) 20%,rgba(190,225,255,0.351) 30%,rgba(190,225,255,0.242) 40%,rgba(190,225,255,0.156) 50%,rgba(190,225,255,0.091) 60%,rgba(190,225,255,0.046) 70%,rgba(190,225,255,0.017) 80%,rgba(190,225,255,0.003) 90%,rgba(190,225,255,0.000) 100%)}
 @keyframes mpulse{0%,100%{opacity:.78}50%{opacity:1}}
 
@@ -106,7 +108,7 @@ html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidde
 #splash-screen{position:fixed;inset:0;display:none;justify-content:center;align-items:center;z-index:99;flex-direction:column}
 .anim-wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
 .shade{position:absolute;left:50%;top:50%;width:min(130vw,1100px);height:min(80vh,600px);transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(closest-side,rgba(0,4,12,0.78) 0%,rgba(0,4,12,0.74) 10%,rgba(0,4,12,0.63) 20%,rgba(0,4,12,0.49) 30%,rgba(0,4,12,0.34) 40%,rgba(0,4,12,0.21) 50%,rgba(0,4,12,0.12) 60%,rgba(0,4,12,0.06) 70%,rgba(0,4,12,0.03) 80%,rgba(0,4,12,0.011) 90%,rgba(0,4,12,0) 100%)}
-.anim-text{font-family:'ScreenFont','Orbitron',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:700;text-align:center;line-height:1.2;padding:0 20px;text-transform:uppercase;letter-spacing:3px;background:linear-gradient(to bottom,#fff 0%,var(--c) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;opacity:0}
+.anim-text{font-family:'ScreenFont','Orbitron',sans-serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:700;text-align:center;line-height:1.2;padding:0 20px;text-transform:uppercase;letter-spacing:3px;background:linear-gradient(to bottom,#fff 0%,var(--c) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;opacity:0;will-change:transform,opacity}
 @keyframes textIn{0%{opacity:0;transform:translateY(40px) scale(.9)}60%{opacity:1}80%{transform:translateY(-4px) scale(1.02)}100%{opacity:1;transform:none}}
 @keyframes textOut{to{opacity:0;transform:translateY(-22px) scale(.95)}}
 @keyframes bob{50%{transform:translateY(-5px)}}
@@ -135,7 +137,7 @@ html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidde
 .popup-card::after{bottom:-2px}
 #popup-overlay.open .popup-card{animation:unfold .6s .3s cubic-bezier(.2,.9,.2,1) both}
 @keyframes unfold{from{clip-path:inset(50% 0 50% 0 round 18px)}to{clip-path:inset(0 0 0 0 round 18px)}}
-.popup-header{display:flex;align-items:center;background:url('file:///android_asset/app_icon.png') center/cover;border-radius:12px;padding:8px 10px;margin-bottom:10px;border:1px solid #4aa3ff;position:relative}
+.popup-header{display:flex;align-items:center;background:url('https://kommodo.ai/i/40wMBf8E9aOkRRLsqWk7') center/cover;border-radius:12px;padding:8px 10px;margin-bottom:10px;border:1px solid #4aa3ff;position:relative}
 .popup-header::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,12,34,.9),rgba(2,30,70,.7));border-radius:12px}
 .logo-wrap{position:relative;z-index:2;width:40px;height:40px;flex:none}
 .header-logo{width:40px;height:40px;border-radius:50%;border:2px solid #5fe0ff;object-fit:cover;display:block;box-shadow:0 0 12px rgba(95,224,255,.5)}
@@ -154,7 +156,7 @@ html,body{width:100%;height:100%;min-width:100vw;min-height:100vh;overflow:hidde
 .menu-btn::before{content:'';position:absolute;left:0;top:18%;bottom:18%;width:3px;background:#5fe0ff;box-shadow:0 0 8px #5fe0ff;border-radius:0 3px 3px 0}
 #popup-overlay.open .menu-btn{animation:btnIn .6s cubic-bezier(.34,1.4,.64,1) both;animation-delay:calc(.55s + var(--i)*.1s)}
 @keyframes btnIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.btn-shine{position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-200%) skewX(-20deg);animation:btnShine 3.5s infinite linear;pointer-events:none}
+.btn-shine{position:absolute;top:0;left:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-200%) skewX(-20deg);animation:btnShine 3.5s 2 linear;pointer-events:none;will-change:transform}
 @keyframes btnShine{to{transform:translateX(500%) skewX(-20deg)}}
 .menu-btn:active{transform:scale(.96) translateY(3px);box-shadow:0 0 0 #03112e;filter:brightness(1.25)}
 .btn-left{display:flex;align-items:center;z-index:2}
@@ -223,7 +225,7 @@ body.locked #skip-btn{display:none}
   <div class="popup-fit" id="gate-fit"><div class="popup-card">
     <div class="popup-header">
       <div class="logo-wrap">
-        <img src="file:///android_asset/app_icon.png" alt="Logo" class="header-logo" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
+        <img src="https://kommodo.ai/i/40wMBf8E9aOkRRLsqWk7" alt="Logo" class="header-logo" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
         <div class="hat" id="hat2"></div>
       </div>
       <div class="header-text">
@@ -257,10 +259,10 @@ body.locked #skip-btn{display:none}
     <div class="icon-spinner-wrapper">
         <div class="glow-aura"></div>
         <div class="dash-ring"></div>
-        <div class="sonar"></div><div class="sonar" style="animation-delay:1.5s"></div>
+        <div class="sonar"></div>
         <div class="porthole">
             <div class="glass">
-                <img src="file:///android_asset/app_icon.png" alt="Icon" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
+                <img src="https://kommodo.ai/i/40wMBf8E9aOkRRLsqWk7" alt="Icon" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
                 <div class="slosh"><div class="water" id="water"><div class="wave-top"></div></div></div>
             </div>
         </div>
@@ -294,7 +296,7 @@ body.locked #skip-btn{display:none}
     <div class="popup-fit" id="popup-fit"><div class="popup-card">
         <div class="popup-header">
             <div class="logo-wrap">
-                <img src="file:///android_asset/app_icon.png" alt="Logo" class="header-logo" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
+                <img src="https://kommodo.ai/i/40wMBf8E9aOkRRLsqWk7" alt="Logo" class="header-logo" onerror="this.src='https://ui-avatars.com/api/?name=G&background=050a14&color=5fe0ff&size=128'">
                 <div class="hat" id="hat"></div>
             </div>
             <div class="header-text">
@@ -455,7 +457,7 @@ addEventListener('resize', measure);
 /* ===== OMBAK 3D (shader WebGL) + LANGIT BADAI (canvas 2D) ===== */
 (function(){
   const gc = $('fx'), sc = $('sky'), sx = sc.getContext('2d');
-  let Q = .6, lastF = 0, ema = 16, lastQ = 0;
+  let Q = .38, lastF = 0, ema = 33, lastQ = 0, raf = 0, stopped = false, lastGL = 0, lite = false;
   const VS = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
   const FS = `#ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
@@ -500,8 +502,7 @@ void main(){
   let W, H, gl = null, U = {}, run = true, last = 0, flash = 0, bolt = null, boltT = 0, nextBolt = 2500, shoot = null, nextShoot = 3500;
   const stars = [], gulls = [], drops = [], mist = [];
   function mkMoon(){
-    const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d');
-    g.scale(2,2);
+    const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
     let gr = g.createRadialGradient(92,88,10,128,128,125); gr.addColorStop(0,'#ffffff'); gr.addColorStop(.35,'#eef3f8'); gr.addColorStop(.75,'#c4d0de'); gr.addColorStop(1,'#7d8ca3'); g.fillStyle = gr; g.fillRect(0,0,256,256);
     [[100,100,34,24],[150,92,24,18],[120,150,40,26],[160,140,18,26],[88,150,16,12]].forEach(m=>{
       const rg = g.createRadialGradient(m[0],m[1],1,m[0],m[1],m[2]); rg.addColorStop(0,'rgba(95,110,135,.55)'); rg.addColorStop(1,'rgba(95,110,135,0)');
@@ -513,11 +514,11 @@ void main(){
     gr = g.createRadialGradient(80,76,60,150,150,175); gr.addColorStop(0,'rgba(8,16,40,0)'); gr.addColorStop(.62,'rgba(8,16,40,.08)'); gr.addColorStop(1,'rgba(8,16,40,.62)'); g.fillStyle = gr; g.fillRect(0,0,256,256);
     gr = g.createRadialGradient(128,128,90,128,128,121); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'rgba(10,18,36,.35)'); g.fillStyle = gr; g.fillRect(0,0,256,256);
     g.setTransform(1,0,0,1,0,0); g.globalCompositeOperation = 'destination-in';
-    gr = g.createRadialGradient(256,256,0,256,256,242); gr.addColorStop(0,'#000'); gr.addColorStop(.975,'#000'); gr.addColorStop(1,'rgba(0,0,0,0)');
-    g.fillStyle = gr; g.fillRect(0,0,512,512);
+    gr = g.createRadialGradient(128,128,0,128,128,121); gr.addColorStop(0,'#000'); gr.addColorStop(.975,'#000'); gr.addColorStop(1,'rgba(0,0,0,0)');
+    g.fillStyle = gr; g.fillRect(0,0,256,256);
     return c;
   }
-  try{ document.getElementById('moonimg').src = mkMoon().toDataURL('image/png'); }catch(e){}
+  (function(){ const mi = document.getElementById('moonimg'); mi.onload = function(){ mi.style.opacity = 1; }; const go = function(){ try{ mi.src = mkMoon().toDataURL('image/png'); }catch(e){ mi.style.opacity = 1; } }; window.requestIdleCallback ? requestIdleCallback(go,{timeout:1200}) : setTimeout(go,300); })();
   function initGL(){
     try{ gl = gc.getContext('webgl', {alpha:true, premultipliedAlpha:true, antialias:false}) || gc.getContext('experimental-webgl'); }catch(e){}
     if(!gl) return;
@@ -540,9 +541,9 @@ void main(){
   }
   initGL(); size(); addEventListener('resize', size);
   window.setFxQ = function(q){ if(Math.abs(q - Q) > .01){ Q = q; size(); } };
-  for(let i=0;i<42;i++) stars.push({x:Math.random(), y:Math.random()*.45, r:Math.random()*1.2 + .3, p:Math.random()*6.28});
+  for(let i=0;i<24;i++) stars.push({x:Math.random(), y:Math.random()*.45, r:Math.random()*1.2 + .3, p:Math.random()*6.28});
   for(let i=0;i<3;i++) gulls.push({x:Math.random(), y:.12 + Math.random()*.18, s:.00004 + Math.random()*.00003, z:6 + Math.random()*5, p:Math.random()*6.28});
-  for(let i=0;i<70;i++) drops.push({x:Math.random(), y:Math.random(), v:.012 + Math.random()*.012, l:8 + Math.random()*10});
+  for(let i=0;i<36;i++) drops.push({x:Math.random(), y:Math.random(), v:.012 + Math.random()*.012, l:8 + Math.random()*10});
   for(let i=0;i<4;i++) mist.push({x:Math.random()*1.4, y:.42 + Math.random()*.12, s:.00002 + Math.random()*.00003, r:.28 + Math.random()*.2});
 
   function makeBolt(){
@@ -564,10 +565,10 @@ void main(){
   }
   function frame(t){
     if(!run) return;
-    requestAnimationFrame(frame);
-    if(t - last < (sailing ? 30 : 14)) return;
-    const dtf = t - lastF; lastF = t; ema = ema*.92 + Math.min(dtf,80)*.08;
-    if(t > 3000 && ema > 30 && Q > .36 && t - lastQ > 1500){ Q = Math.max(.36, Q - .08); lastQ = t; size(); }
+    raf = requestAnimationFrame(frame);
+    if(t - last < 24) return;
+    const dtf = t - lastF; lastF = t; ema = ema*.9 + Math.min(dtf,100)*.1;
+    if(t > 2500 && ema > 40 && Q > .25 && t - lastQ > 1200){ Q = Math.max(.25, Q - .05); lastQ = t; size(); } else if(t > 2500 && ema > 45 && Q <= .26) lite = true;
     const dtm = Math.min(t - last, 60); last = t;
     const y0 = H*.5, moonX = W*.78, moonY = H*.2;
     nextBolt -= dtm; if(nextBolt <= 0 && !bolt){ makeBolt(); nextBolt = 5000 + Math.random()*5000; }
@@ -576,7 +577,8 @@ void main(){
       flash = boltT < 90 ? 1 : boltT < 150 ? .15 : boltT < 230 ? .9 : Math.max(0, .9*Math.exp(-(boltT - 230)/220));
       if(boltT > 1000){ bolt = null; flash = 0; }
     }
-    if(gl){
+    if(gl && t - lastGL >= 44){
+      lastGL = t;
       const sh = window.__ship;
       gl.uniform2f(U.uRes, gc.width, gc.height); gl.uniform1f(U.uT, (t/1000*.7)%2000); gl.uniform1f(U.uHz, .5);
       gl.uniform4f(U.uShip, sh ? sh.x*Q : -9999, sh ? (H - sh.y)*Q : 0, sh ? sh.half*Q : 0, sh ? sh.on : 0); gl.uniform1f(U.uFlash, flash); gl.uniform1f(U.uMoon, (moonX - W/2)/H);
@@ -592,7 +594,7 @@ void main(){
       }
     }
     sx.fillStyle = '#fff';
-    for(const s of stars){ sx.globalAlpha = .35 + .35*Math.sin(t/900 + s.p); sx.fillRect(s.x*W, s.y*H, s.r, s.r); }
+    if(!lite) for(const s of stars){ sx.globalAlpha = .35 + .35*Math.sin(t/900 + s.p); sx.fillRect(s.x*W, s.y*H, s.r, s.r); }
     sx.globalAlpha = 1;
     
     
@@ -611,7 +613,7 @@ void main(){
       if(shoot.l > 40) shoot = null;
     }
     sx.beginPath();
-    for(const d of drops){
+    for(const d of (lite?[]:drops)){
       d.y += d.v*dtm/33; d.x -= d.v*.25*dtm/33; if(d.y > 1){ d.y = -.05; d.x = Math.random(); }
       const x = d.x*W, y = d.y*H; sx.moveTo(x, y); sx.lineTo(x - d.l*.25, y - d.l);
     }
@@ -625,15 +627,15 @@ void main(){
     }
     
   }
-  requestAnimationFrame(frame);
-  document.addEventListener('visibilitychange', ()=>{ run = !document.hidden; if(run) requestAnimationFrame(frame); });
-  window.stopFx = ()=>{ run = false; sx.clearRect(0,0,W,H); if(gl){ gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT); } };
+  raf = requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange', ()=>{ run = !document.hidden && !stopped; cancelAnimationFrame(raf); if(run){ last = lastF = performance.now(); raf = requestAnimationFrame(frame); } });
+  window.stopFx = ()=>{ stopped = true; run = false; cancelAnimationFrame(raf); sx.clearRect(0,0,W,H); if(gl){ gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT); } };
 })();
 
 /* ===== TRANSISI KAPAL KANAN KE KIRI ===== */
 function sailTransition(){
   sailing = true;
-  if(window.setFxQ) setFxQ(.45);
+  if(window.setFxQ) setFxQ(.3);
   const ov = $('sail-wipe'), ship = $('big-ship'), lc = $('loading-container'), sp = $('splash-screen');
   if(!Ship2D.ready) Ship2D.init();
   ov.style.display = 'block'; lc.classList.add('wiping'); lc.style.transition = 'none'; sp.style.clipPath = 'inset(0 0 0 100%)';
@@ -672,12 +674,13 @@ const DURATION = 7500;
 const STATUS = [[0,'SET SAIL'],[30,'LOADING CARGO'],[60,'NAVIGATING'],[90,'DROPPING ANCHOR']];
 let lastStatus = '';
 
+const PF=$('progress-fill'), SH=$('ship'), WT=$('water'), PT=$('percentage-text'); let lastPct=-1;
 function setProgress(p){
-  $('progress-fill').style.transform = 'scaleX(' + (p/100) + ')';
+  PF.style.transform = 'scaleX(' + (p/100) + ')';
   if(!trackW) measure();
-  $('ship').style.transform = 'translate3d(' + ((trackW - shipW)*p/100).toFixed(1) + 'px,0,0)';
-  $('water').style.transform = 'translateY(' + (10.7 + 78.6*(1 - p/100)).toFixed(2) + '%)';
-  $('percentage-text').textContent = Math.floor(p) + '%';
+  SH.style.transform = 'translate3d(' + ((trackW - shipW)*p/100).toFixed(1) + 'px,0,0)';
+  WT.style.transform = 'translateY(' + (10.7 + 78.6*(1 - p/100)).toFixed(2) + '%)';
+  const pc = Math.floor(p); if(pc !== lastPct){ lastPct = pc; PT.textContent = pc + '%'; }
   let s = STATUS[0][1];
   for(const [at,txt] of STATUS) if(p >= at) s = txt;
   if(s !== lastStatus){ lastStatus = s; $('status-text').textContent = s; }
@@ -893,7 +896,7 @@ function gateInit(){
   if(LS.get('vz_token')){ setRem(true); setTimeout(()=>resumeWithSavedToken(), 900); }
 }
 let hasStarted = false;
-function bootLoading(){ if(hasStarted) return; hasStarted = true; Snd.start(); gateInit(); }
+function bootLoading(){ if(hasStarted) return; hasStarted = true; gateInit(); setTimeout(Snd.start, 500); }
 window.addEventListener('DOMContentLoaded', bootLoading);
 window.addEventListener('load', bootLoading);
 </script>
@@ -1069,21 +1072,21 @@ function mkSprites(){
   for(var i=0;i<16;i++){ var a=Math.random()*6.283,r=Math.random()*18,x=32+Math.cos(a)*r,y=32+Math.sin(a)*r,s=rnd(7,15);
     var gr=f.createRadialGradient(x,y,0,x,y,s); gr.addColorStop(0,'rgba(255,255,255,.55)'); gr.addColorStop(1,'rgba(255,255,255,0)'); f.fillStyle=gr; f.fillRect(0,0,64,64); }
 }
-function add(o){ if(P.length<320) P.push(o); }
+function add(o){ if(P.length<140) P.push(o); }
 A.alive=function(){ return P.length>0; };
 A.fx=function(dt,tx,speed,emit){
   var L=A.L; if(!L) return;
-  if(!wg){ wc=document.getElementById('wakefx'); wg=wc.getContext('2d'); if(!fs) mkSprites(); }
+  if(!wg){ wc=document.getElementById('wakefx'); wg=wc.getContext('2d'); wg.setTransform(.5,0,0,.5,0,0); if(!fs) mkSprites(); }
   var s=L.s,yW=L.wy,bowX=tx+255*s,sternX=tx+1465*s,kk=emit?Math.min(1,speed/120):0,i,n;
-  acc.h+=dt*70*kk; acc.b+=dt*55*kk; acc.d+=dt*60*kk; acc.s+=dt*80*kk; acc.a+=dt*40*kk;
+  acc.h+=dt*36*kk; acc.b+=dt*28*kk; acc.d+=dt*30*kk; acc.s+=dt*40*kk; acc.a+=dt*20*kk;
   while(acc.h>=1){ acc.h--; add({t:'f',x:lerp(bowX+40*s,sternX-40*s,Math.random()),y:yW+rnd(-4,10)*s,vx:0,vy:0,sz:rnd(30,62)*s,life:rnd(.9,1.7),g:.35,a:.7,age:0}); }
   while(acc.b>=1){ acc.b--; add({t:'c',x:bowX+rnd(-10,25)*s,y:yW+rnd(-6,6)*s,vx:-rnd(0,40)*s,vy:-rnd(40,130)*s,sz:rnd(34,70)*s,life:rnd(.45,.9),g:.5,a:.8,age:0}); }
   while(acc.d>=1){ acc.d--; add({t:'d',x:bowX+rnd(0,30)*s,y:yW-rnd(0,18)*s,vx:rnd(-120,60)*s,vy:-rnd(180,420)*s,sz:rnd(2,5.5),life:rnd(.6,1.1),g:0,a:.85,age:0}); }
   while(acc.s>=1){ acc.s--; add({t:'f',x:sternX+rnd(-20,30)*s,y:yW+rnd(-5,8)*s,vx:rnd(0,25)*s,vy:rnd(-1,1)*(10+speed*.045),sz:rnd(44,95)*s,life:rnd(1.6,2.6),g:.7,a:.75,age:0}); }
   while(acc.a>=1){ acc.a--; var sg=Math.random()<.5?-1:1; add({t:'f',x:sternX,y:yW,vx:rnd(0,15)*s,vy:sg*speed*.07*rnd(.7,1.1)*s*2,sz:rnd(22,40)*s,life:2.2,g:.8,a:.5,age:0}); }
-  wg.clearRect(0,0,wc.width,wc.height);
+  wg.clearRect(0,0,wc.width*2,wc.height*2);
   for(i=P.length-1;i>=0;i--){
-    var p=P[i]; p.age+=dt; if(p.age>=p.life){ P.splice(i,1); continue; }
+    var p=P[i]; p.age+=dt; if(p.age>=p.life){ P[i]=P[P.length-1]; P.pop(); continue; }
     if(p.t==='d') p.vy+=900*s*dt; else if(p.t==='c') p.vy+=600*s*dt;
     p.x+=p.vx*dt; p.y+=p.vy*dt;
     var u=p.age/p.life,a=p.a*Math.min(u/.12,1)*(1-u),sz=p.sz*(1+p.g*u);
@@ -1097,12 +1100,12 @@ A.fx=function(dt,tx,speed,emit){
 A.layout=function(){
   var vw=innerWidth,vh=innerHeight,Wd=Math.max(vw,vh*1.45),s=Wd/CW,wy=vh*.70;
   var el=document.getElementById('big-ship'); el.style.width=Wd+'px'; el.style.height=(CH*s)+'px'; el.style.top=(wy-WL*s)+'px';
-  var w=document.getElementById('wakefx'); w.width=vw; w.height=vh; w.style.width=vw+'px'; w.style.height=vh+'px';
+  var w=document.getElementById('wakefx'); w.width=vw>>1; w.height=vh>>1; w.style.width=vw+'px'; w.style.height=vh+'px';
   A.L={s:s,Wd:Wd,wy:wy,cx:HX*s,half:615*s}; P.length=0; wg=null;
   return A.L;
 };
 A.init=function(){ if(A.ready) return; paint(); A.ready=true; };
-addEventListener('load',function(){ setTimeout(A.init,600); });
+addEventListener('load',function(){ setTimeout(function(){ window.requestIdleCallback ? requestIdleCallback(A.init,{timeout:2500}) : A.init(); },1500); });
 })();
 </script>
 </body>
